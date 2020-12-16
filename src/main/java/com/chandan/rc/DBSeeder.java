@@ -3,7 +3,10 @@ package com.chandan.rc;
 import com.chandan.rc.documents.Deals;
 import com.chandan.rc.documents.Product;
 import com.chandan.rc.documents.ProductCategory;
+import com.chandan.rc.repository.DealsRepository;
+import com.chandan.rc.repository.ProductCategoryRepository;
 import com.chandan.rc.repository.ProductRepository;
+import com.chandan.rc.utils.Utils;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -14,24 +17,38 @@ import java.util.List;
 @Component
 public class DBSeeder implements CommandLineRunner {
 
-    private HotelRepository hotelRepository;
-//    private ProductCategoryRepository prodcutCategoryRepository;
+    private ProductCategoryRepository prodcutCategoryRepository;
     private ProductRepository productRepository;
-//    private DealsRepository dealsRepository;
-    private String[] defaultProducts = {"Sony Audio First", "Oats", "Mouse", "Puma T-Shirt", "Hello"};
+    private DealsRepository dealsRepository;
+    private String[] defaultProducts = {
+            "Sony Audio First",
+            "JBL Speaker",
+            "Oats",
+            "Wheat floor",
+            "Mouse",
+            "Key Board",
+            "Puma T-Shirt",
+            "HRX Track suite"};
 
-    public DBSeeder(HotelRepository hotelRepository, ProductRepository productRepository) {
-        this.hotelRepository = hotelRepository;
+    public DBSeeder(ProductCategoryRepository productCategoryRepository,
+                    ProductRepository productRepository,
+                    DealsRepository dealsRepository) {
+        this.prodcutCategoryRepository = productCategoryRepository;
         this.productRepository = productRepository;
+        this.dealsRepository = dealsRepository;
     }
 
-    private List<Product> getSomeProductsForCategories(){
+    private List<Product> getSomeProductsForCategories(List<ProductCategory> productCategories){
         List<Product> products = new ArrayList<>();
-        for (int index = 0; index<4; index++) {
-            System.out.println("Index------" + index);
-            products.add(
-                    new Product(defaultProducts[index], Integer.toString(index), (index+1) * 1000)
-            );
+        int index = 0;
+        for (ProductCategory productCategory: productCategories) {
+            for(int j=0; j<2;j++){
+                products.add(new Product(
+                        defaultProducts[index++],
+                        productCategory.getId(),
+                        (index) * 1000)
+                );
+            }
         }
         return products;
     }
@@ -48,15 +65,16 @@ public class DBSeeder implements CommandLineRunner {
         List<Deals> deals = new ArrayList<>();
         int index = 0;
         for (Product product: products) {
+            System.out.println(index);
             if(index % 2 == 0){
-                deals.add(
-                        new Deals(
-                                (index+1)*10,
+                deals.add(new Deals(
+                                Utils.getDealPercentage(),
                                 product.getId(),
-                                System.currentTimeMillis() + 1200000
+                                Utils.getDealAvailableTill()
                         )
                 );
             }
+            index++;
         }
         return deals;
     }
@@ -65,22 +83,17 @@ public class DBSeeder implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         // Drop the existing collections
-        this.hotelRepository.deleteAll();
-        //this.prodcutCategoryRepository.deleteAll();
-        //this.dealsRepository.deleteAll();
+        this.prodcutCategoryRepository.deleteAll();
+        this.dealsRepository.deleteAll();
         this.productRepository.deleteAll();
 
         // Creating data for fresh insert
-//        List<ProductCategory> productCategories = getSomeProductCategories();
-//        // Adding data to the collections
-//        this.prodcutCategoryRepository.saveAll(productCategories);
+        List<ProductCategory> productCategories = getSomeProductCategories();
+        // Adding data to the collections
+        this.prodcutCategoryRepository.saveAll(productCategories);
 
-//        productCategories = this.prodcutCategoryRepository.findAll();
-        List<Product> products = getSomeProductsForCategories();
+        productCategories = this.prodcutCategoryRepository.findAll();
+        List<Product> products = getSomeProductsForCategories(productCategories);
         this.productRepository.saveAll(products);
-
-//        products = this.productRepository.findAll();
-//        List<Deals> deals = getSomeDealsForProducts(products);
-//        this.dealsRepository.saveAll(deals);
     }
 }

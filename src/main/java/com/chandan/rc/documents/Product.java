@@ -10,7 +10,7 @@ public class Product {
     @Id
     private String id;
     private String productName;
-//    @Indexed(direction = IndexDirection.ASCENDING)
+    @Indexed(direction = IndexDirection.ASCENDING)
     private String categoryId;
     private Integer price;
 

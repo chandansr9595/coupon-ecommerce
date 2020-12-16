@@ -8,5 +8,4 @@ import java.util.List;
 
 @Repository
 public interface DealsRepository extends MongoRepository<Deals, String> {
-    List<Deals> findAllByProductId(Iterable<String> productIds);
 }

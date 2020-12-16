@@ -23,8 +23,5 @@ public class DealsController {
         return this.dealsRepository.findAll();
     }
 
-    @GetMapping("/allByProductId")
-    public List<Deals> getByProductIds(@RequestBody  List<String> productIds){
-        return this.dealsRepository.findAllByProductId(productIds);
-    }
+
 }
