@@ -1,60 +1,85 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import Countdown from 'react-countdown';
+import './timer.css';
+import { connect } from 'react-redux';
+import {fetchProducts} from '../../actions';
 
-const useStyles = makeStyles(theme => ({
-    contianer: {
-        display: 'flex',
-        justifyContent: 'center',
-    },
-    typography:{
-        width: '95%',
-        backgroundColor: '#802E6E',
-        borderRadius: 15,
-        height: 300,
-    },
-    countDownContainer:{
-        fontSize: 30,
-        fontWeight: 'bold',
-        color: 'white',
-        display: 'flex',
-        justifyContent: 'center',
-    },
-    countDownHeader: {
-        width: 420,
-        textAlign: 'left',
-    },
-    counterContainer: {
-        display: 'flex',
-        justifyContent: 'center',
-        
-    },
-    counter: {
-        border: '1px solid white',
-        width: 400,
-        height: 150,
-        borderRadius: 10
+
+interface ITimerComponentProps {
+    fetchProducts: () => void,
+    dealTimout: number,
+}
+
+class TimerComponent extends React.Component<ITimerComponentProps> {
+
+    timeOut: any;
+
+    componentWillUnmount() {
+        clearTimeout(this.timeOut);
     }
-}));
 
+    completionist = () => {
+        this.timeOut = setTimeout(() => {
+            window.location.reload();
+        }, 1000);
+        return <span className="timerCountDownText">Deals are gone!</span>
+    };
+    
+    renderer = (props: {
+        hours: any,
+        minutes: any,
+        seconds: any,
+        completed: boolean
+    }) => {
+        if (props.completed) {
+            return this.completionist()
+        } else {
+            return <span className="timerCountDown">{props.hours}:{props.minutes}:{props.seconds}</span>;
+        }
+    };
 
-const TimerComponent = () => {
-    const classes = useStyles();
-    return (
-        <div className={classes.contianer}>
-            <div className={classes.typography}>
-                <div className={classes.countDownContainer}>
-                    <div className={classes.countDownHeader}>
-                        <p>Countdown Has Began</p>
+    rendererLoading = (props: {
+        hours: any,
+        minutes: any,
+        seconds: any,
+        completed: boolean
+    }) => {
+        if (props.completed) {
+            return this.completionist()
+        } else {
+            return <span className="timerCountDownText">Loading....</span>;
+        }
+    };
+
+    render() {
+        return (
+            <div className='contianer'>
+                <div className='typography'>
+                    <div className='countDownContainer'>
+                        <div className='countDownHeader'>
+                            <p>Countdown Has Began</p>
+                        </div>
                     </div>
-                </div>
-                <div className={classes.counterContainer}>
-                    <div className={classes.counter}>
-                        Hello
+                    <div className='counterContainer'>
+                        <div className='counter'>
+                            <Countdown 
+                                date={new Date(this.props.dealTimout)} 
+                                renderer={this.props.dealTimout ? this.renderer : this.rendererLoading}
+                            />
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    );
+        );
+    }
 }
 
-export default TimerComponent;
+const mapStateToProps = (state: any) => {
+    return {
+        dealTimout: state.products.dealTimout
+    }
+}
+
+export default connect(mapStateToProps, {
+    fetchProducts
+})(TimerComponent);

@@ -1,0 +1,37 @@
+.contianer {
+    display: flex;
+    justify-content: center;
+}
+
+.typography {
+    width: 95%;
+    background-color: #802E6E;
+    border-radius: 15px;
+    height: 300px;
+}
+
+.countDownContainer{
+    font-size: 30px;
+    font-weight: bold;
+    color: white;
+    display: flex;
+    justify-content: center;
+}
+
+.countDownHeader {
+    width: 420px;
+    text-align: left;
+}
+
+.counterContainer {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+}
+
+.counter {
+    border: 1px solid white;
+    width: 400px;
+    height: 150px;
+    border-radius: 10px;
+}

@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+// import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-
+import history from '../history';
 
 const useStyles = makeStyles(theme => ({
     main:{
@@ -45,19 +45,13 @@ const Header = () => {
 
     const classes = useStyles();
 
-    useEffect(() => {
-        console.log("useEffect")
-    }, []);
-
     return (
         <div className={classes.main}>
             <div className={classes.container}>
                 <div className={classes.inline}>Icons</div>
                 <div className={classes.links}>
                     <div className={classes.linksContainer}>
-                        <div className={classes.eachLink}>Products</div>
-                        <div className={classes.eachLink}>Add products</div>
-                        <div className={classes.eachLink}>Categories</div>
+                        <div className={classes.eachLink} onClick={() => {history.push('/createProduct')}}>Add products</div>
                     </div>
                 </div>
                 <div className={classes.inline}>Profile</div>

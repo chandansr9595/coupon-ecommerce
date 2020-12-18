@@ -36,3 +36,94 @@
     transform: rotate(360deg);
   }
 }
+
+
+.timerCountDown {
+  font-size: 80px;
+  font-weight: bold;
+  color: #ffffff;
+  line-height: 150px;
+}
+
+.timerCountDownText {
+  font-size: 30px;
+  font-weight: bold;
+  color: #ffffff;
+  line-height: 150px;
+}
+
+
+.productContainer {
+  width: 95%;
+  border-radius: 15px;
+  height: 100%;
+  margin-top: 50px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  background-color: #f9f9f9;
+}
+
+.eachProduct{
+  height: 80px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  margin: 20px;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: left;
+}
+
+.productName {
+  height: 80px;
+  line-height: 80px;
+  width: 40%;
+  border-right: 1px solid #cccccc;
+}
+
+.productPrice{
+  height: 80px;
+  line-height: 80px;
+  width: 20%;
+}
+
+.productPrice .price{
+  line-height: 80px;
+}
+
+.productPriceActual {
+  height: 80px;
+  line-height: 80px;
+  width: 20%;
+}
+
+.dealPercentage {
+  height: 80px;
+  line-height: 80px;
+  font-weight: bold;
+}
+
+
+.boldText{
+  font-weight: bold;
+}
+
+.productCreateContainer{
+  display: block;
+  padding: 50px;
+  /* float: left; */
+}
+
+.productLabel{
+  text-transform: uppercase;
+  display:inline-block;
+}
+
+.inputContainer{
+  height: 50px;
+}
+
+.inputStyle{
+  padding: 20px;
+}
+
+.formError {
+  border: 1px solid red;
+}

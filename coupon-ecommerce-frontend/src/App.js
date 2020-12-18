@@ -1,12 +1,17 @@
 import './App.css';
-import Header from './components/Header';
-import TimerComponent from './components/showTimer/timer';
+import { Router, Route } from 'react-router-dom';
+
+import HomePage from './components/homePage';
+import history from './history';
+import AddProduct from './components/addProduct/AddProduct';
 
 function App() {
   return (
     <div className="App">
-      <Header />
-      <TimerComponent />
+      <Router history={history}>
+        <Route path="/" exact component={HomePage}/>
+        <Route path="/createProduct" exact component={AddProduct}/>
+      </Router>
     </div>
   );
 }
